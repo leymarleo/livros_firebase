@@ -7,6 +7,12 @@ import {
 
 function LoginPage() {
 
+  const dicionario_erro = {
+      "auth/invalid-credential" : "Email ou senha inválido",
+      "auth/invalid-email" : "Email inválido",
+      "auth/email-already-in-use" : "Email já em uso",
+  }
+
   const [loginType, setLoginType] = useState('login');
   const [userCred, setUserCred] = useState('')
   const [error, setError] = useState('')
@@ -17,7 +23,7 @@ function LoginPage() {
  
   function handleCriar(e){
     e.preventDefault()
-
+    setError('')
     createUserWithEmailAndPassword(auth, userCred.email, userCred.password)
     .then((userCredential) => {
       // Signed in 
@@ -29,14 +35,16 @@ function LoginPage() {
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
-      console.log(errorMessage)
-      setError(error.message)
+      console.log(errorCode)
+
+      setError(dicionario_erro[error.code] || error.message)
       // ..
     });
     }
 
     function handleEntrar(e){
       e.preventDefault()
+      setError('')
       signInWithEmailAndPassword(auth, userCred.email, userCred.password)
       .then((userCredential) => {
         // Signed in 
@@ -48,7 +56,9 @@ function LoginPage() {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        setError(error.message)
+        console.log(errorCode)
+      
+        setError(dicionario_erro[error.code])
       });
 
 
