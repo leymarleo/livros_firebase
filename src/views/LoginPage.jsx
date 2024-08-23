@@ -1,9 +1,10 @@
 import {useState} from 'react';
-import { auth} from '../firebase/config.js'
+import { auth } from '../firebase/config.js'
 import { 
    createUserWithEmailAndPassword
   ,signInWithEmailAndPassword 
  } from "firebase/auth";
+import { sendPasswordResetEmail } from 'firebase/auth/web-extension';
 
 function LoginPage() {
 
@@ -63,6 +64,12 @@ function LoginPage() {
 
 
     }
+
+    function handledefinirsenha() {
+      const email = prompt('Digite seu e-mail')
+      sendPasswordResetEmail(auth, email)
+      alert('E-mail enviado com instruções para redefinir sua senha')
+    }
   
     return (
       <>
@@ -103,7 +110,7 @@ function LoginPage() {
                       {error}
                     </div>
                   }
-                  <p className="forgot-password">Esqueci minha senha.</p>
+                  <p className="forgot-password" onClick = {handledefinirsenha}>Esqueci minha senha.</p>
                   
               </form>
           </section>
