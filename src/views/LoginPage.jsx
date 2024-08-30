@@ -1,10 +1,14 @@
 import {useState} from 'react';
-import { auth } from '../firebase/config.js'
+import { auth} from '../firebase/config.js'
 import { 
    createUserWithEmailAndPassword
-  ,signInWithEmailAndPassword 
+  ,sendPasswordResetEmail
+  ,signInWithEmailAndPassword
+  ,onAuthStateChanged
  } from "firebase/auth";
-import { sendPasswordResetEmail } from 'firebase/auth/web-extension';
+
+import {useDispatch} from 'react-redux'
+import {setUser} from '../store/usersSlice.js' 
 
 function LoginPage() {
 
@@ -17,6 +21,21 @@ function LoginPage() {
   const [loginType, setLoginType] = useState('login');
   const [userCred, setUserCred] = useState('')
   const [error, setError] = useState('')
+
+  const dispatch = useDispatch()
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/auth.user
+      console.log(user.email)
+      dispatch(setUser({id: user.uid, email: user.email}))
+      // ...
+    } else {
+      // User is signed out
+      dispatch(setUser(null))
+    }
+  });
 
   function handleCred(e){
     setUserCred({...userCred, [e.target.name]: e.target.value})
