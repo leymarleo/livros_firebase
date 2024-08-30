@@ -13,9 +13,11 @@ import {setUser} from '../store/usersSlice.js'
 function LoginPage() {
 
   const dicionario_erro = {
-      "auth/invalid-credential" : "Email ou senha inválido",
-      "auth/invalid-email" : "Email inválido",
-      "auth/email-already-in-use" : "Email já em uso",
+     "auth/invalid-credential" : "E-mail ou senha inválida",
+     "auth/invalid-email" : "E-mail inválido",
+     "auth/email-already-in-use" : "A conta já existe ",
+
+
   }
 
   const [loginType, setLoginType] = useState('login');
@@ -44,6 +46,7 @@ function LoginPage() {
   function handleCriar(e){
     e.preventDefault()
     setError('')
+
     createUserWithEmailAndPassword(auth, userCred.email, userCred.password)
     .then((userCredential) => {
       // Signed in 
@@ -56,15 +59,15 @@ function LoginPage() {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log(errorCode)
-
+      
       setError(dicionario_erro[error.code] || error.message)
       // ..
     });
     }
 
     function handleEntrar(e){
-      e.preventDefault()
       setError('')
+      e.preventDefault()
       signInWithEmailAndPassword(auth, userCred.email, userCred.password)
       .then((userCredential) => {
         // Signed in 
@@ -77,19 +80,16 @@ function LoginPage() {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode)
-      
-        setError(dicionario_erro[error.code])
+        setError(dicionario_erro[error.code] || error.message)
       });
-
-
     }
 
-    function handledefinirsenha() {
+    function handleRedefinirSenha(){
       const email = prompt('Digite seu e-mail')
       sendPasswordResetEmail(auth, email)
       alert('E-mail enviado com instruções para redefinir sua senha')
     }
-  
+
     return (
       <>
         <div className="container login-page">
@@ -129,7 +129,8 @@ function LoginPage() {
                       {error}
                     </div>
                   }
-                  <p className="forgot-password" onClick = {handledefinirsenha}>Esqueci minha senha.</p>
+
+                  <p className="forgot-password" onClick={handleRedefinirSenha}>Esqueci minha senha.</p>
                   
               </form>
           </section>
