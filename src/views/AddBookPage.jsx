@@ -1,14 +1,14 @@
 import Header from '../components/Header.jsx';
 import { useNavigate } from 'react-router-dom';
-import {useDispatch} from 'react-redux';
-import {addBook} from '../store/booksSlice.js';
+
+import { collection, addDoc } from 'firebase/firestore';
+import { db, auth} from '../firebase/config.js'
 
 function AddBookPage() {
 
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    function handleAddBook(e) {
+    const handleAddBook = async(e)=> {
         e.preventDefault();
 
         const newBook = {
@@ -20,7 +20,11 @@ function AddBookPage() {
         }
 
         if (newBook.title && newBook.cover && newBook.author) {
-            dispatch(addBook(newBook));
+            
+            newBook.user_id = auth.currentUser.uid
+            const docRef = await addDoc(collection(db, "livros"), newBook)
+            newBook.id = docRef.id
+
             alert('Livro incluido com sucesso!');
             navigate("/");
         } else {

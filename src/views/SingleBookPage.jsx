@@ -6,53 +6,54 @@ import { selectBooks, eraseBook, toggleRead } from '../store/booksSlice.js';
 //import { eraseBookNotes } from '../store/notesSlice.js';
 
 import { useEffect, useState } from 'react';
-import{ deleteDoc, doc, getDoc, } from 'firebase/firestore'
-import { db } from '../firebase/config.js'
-
-
+import { doc, getDoc, deleteDoc } from 'firebase/firestore'
+import { db} from '../firebase/config.js'
 
 function SingleBookPage() {
+
+  //const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
-  const handleEraseBook = async (id) => {
+  const handleEraseBook= async (id)=> {
     if (confirm('Você tem certeza que deseja apagar este livro e todas as notas associadas a ele?')) {
-      try{
-          await deleteDoc(doc(db, "livros", id))
-      }catch (error){
+
+      try {
+          console.log('livro ' + id)
+          await deleteDoc(doc(db,"livros", id))
+      } catch (error){
+          console.log(error)
 
       }
+
       navigate("/");
     }
   }
 
   const { id } = useParams();
-  const [book, setBook] = useState("")
+  const [ book, setBook] = useState("")
 
- // const books = useSelector(selectBooks);
- // const book = books.filter(book => book.id == id)[0];
+  //const books = useSelector(selectBooks);
+  //const book = books.filter(book => book.id == id)[0];
 
- useEffect(()=>{
-  const fetchBook = async(book_id)=>{
-    try {
-      const docRef = doc(db, "livros", book_id)
-      const docSnap = await getDoc(docRef)
+  useEffect(()=>{
+    const fetchBook = async(book_id)=>{
+      try {
+        const docRef = doc(db, "livros", book_id)
+        const docSnap = await getDoc(docRef)
 
-      if (docSnap.exists()){
-        setBook({id: docSnap.id, ...docSnap.data()})
+        if (docSnap.exists()){
+          setBook({id: docSnap.id, ...docSnap.data()})
+        }
+      } catch(err) {
+        console.log(err)
       }
-    } catch(err) {
-      console.log(err)
-    }
 
     }
-    
-    setBook(id)
     fetchBook(id)
+    }, []  )
 
-  }, []
 
-  
- );
 
   return (
     <>

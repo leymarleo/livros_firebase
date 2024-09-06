@@ -2,8 +2,7 @@ import Book from '../components/Book.jsx';
 import Header from '../components/Header.jsx';
 import {useSelector} from 'react-redux';
 
-// import {selectBooks} from '../store/booksSlice.js'; importa da lista falsa
-
+//import {selectBooks} from '../store/booksSlice.js';
 import { db } from '../firebase/config.js'
 import { collection,query, where, getDocs } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
@@ -11,7 +10,7 @@ import { selectUsers } from '../store/usersSlice.js';
 
 function BooksPage() {
 
-  // const books = useSelector(selectBooks); busca na lista falsa
+  //const books = useSelector(selectBooks);
   const uid = useSelector(selectUsers).currentUser.id
   const email = useSelector(selectUsers).currentUser.email
   console.log(email)
@@ -26,16 +25,18 @@ function BooksPage() {
       let booklist = []
       querySnapshot.forEach((doc) => {
         booklist.push({id: doc.id, ...doc.data()})
+        console.log(booklist)
       }
 
       )
       setBooks(booklist)
-      console.log(booklist)
 
     }
 
     fetchBooks()
     }, []  )
+
+
 
   const pageTitle = "📖 Lista de Livros Etec AE";
     
