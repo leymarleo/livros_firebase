@@ -2,25 +2,57 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import Notes from '../components/Notes.jsx';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectBooks, eraseBook, toggleRead } from '../store/booksSlice.js';
-import { eraseBookNotes } from '../store/notesSlice.js';
+
+//import { eraseBookNotes } from '../store/notesSlice.js';
+
+import { useEffect, useState } from 'react';
+import{ deleteDoc, doc, getDoc, } from 'firebase/firestore'
+import { db } from '../firebase/config.js'
+
+
 
 function SingleBookPage() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  function handleEraseBook(id) {
+  const handleEraseBook = async (id) => {
     if (confirm('Você tem certeza que deseja apagar este livro e todas as notas associadas a ele?')) {
-      dispatch(eraseBook(id));
-      dispatch(eraseBookNotes(id));
+      try{
+          await deleteDoc(doc(db, "livros", id))
+      }catch (error){
+
+      }
       navigate("/");
     }
   }
 
   const { id } = useParams();
+  const [book, setBook] = useState("")
 
-  const books = useSelector(selectBooks);
+ // const books = useSelector(selectBooks);
+ // const book = books.filter(book => book.id == id)[0];
 
-  const book = books.filter(book => book.id == id)[0];
+ useEffect(()=>{
+  const fetchBook = async(book_id)=>{
+    try {
+      const docRef = doc(db, "livros", book_id)
+      const docSnap = await getDoc(docRef)
+
+      if (docSnap.exists()){
+        setBook({id: docSnap.id, ...docSnap.data()})
+      }
+    } catch(err) {
+      console.log(err)
+    }
+
+    }
+    
+    setBook(id)
+    fetchBook(id)
+
+  }, []
+
+  
+ );
 
   return (
     <>
