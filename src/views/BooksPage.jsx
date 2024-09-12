@@ -19,10 +19,10 @@ function BooksPage() {
 
   useEffect(()=>{
     const fetchBooks = async()=>{
-      const q = query(collection(db, "livros"), where("user_id","==", uid));
-
-      const querySnapshot = await getDocs(q)
-      let booklist = []
+      const q = query(collection(db, "livros"), where("user_id","==", uid)); // a parte final where("user_id","==", uid));
+                                                                              // restringe os livros para cada usuario individual
+      const querySnapshot = await getDocs(q)                                  // se retirar esse final, todos usarios compartilham
+      let booklist = []                                                       // todos os livros juntos.
       querySnapshot.forEach((doc) => {
         booklist.push({id: doc.id, ...doc.data()})
         console.log(booklist)
