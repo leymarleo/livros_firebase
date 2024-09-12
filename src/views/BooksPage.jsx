@@ -19,7 +19,7 @@ function BooksPage() {
 
   useEffect(()=>{
     const fetchBooks = async()=>{
-      const q = query(collection(db, "livros"))
+      const q = query(collection(db, "livros"), where("user_id","==", uid));
 
       const querySnapshot = await getDocs(q)
       let booklist = []
