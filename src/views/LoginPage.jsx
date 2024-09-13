@@ -1,10 +1,12 @@
 import {useState} from 'react';
-import { auth} from '../firebase/config.js'
+import { auth } from '../firebase/config.js'
 import { 
    createUserWithEmailAndPassword
   ,sendPasswordResetEmail
   ,signInWithEmailAndPassword
   ,onAuthStateChanged
+  ,signInWithPopup 
+  ,GoogleAuthProvider
  } from "firebase/auth";
 
 import {useDispatch} from 'react-redux'
@@ -90,6 +92,16 @@ function LoginPage() {
       alert('E-mail enviado com instruções para redefinir sua senha')
     }
 
+    const handleEntrarGoogle = async(e)=>{
+      e.preventDefault()
+      try{
+        const provider = new GoogleAuthProvider()
+        const result = await signInWithPopup(auth, provider)
+      }catch (error){
+        setError(error.message)
+      }
+    }
+
     return (
       <>
         <div className="container login-page">
@@ -122,6 +134,10 @@ function LoginPage() {
                     <button onClick={(e)=>handleEntrar(e)} className="active btn btn-block">Entrar</button>
                     : 
                     <button onClick={(e)=>handleCriar(e)} className="active btn btn-block">Criar Conta</button>
+                  }
+
+                  {
+                    <button onClick = {(e)=>handleEntrarGoogle(e)} className="active btn btn-block"> Entrar com Google</button>
                   }
 
                   { error &&
