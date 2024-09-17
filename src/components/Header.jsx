@@ -1,55 +1,59 @@
 import { NavLink } from "react-router-dom";
 import { signOut } from "firebase/auth";
-import { auth} from '../firebase/config.js'
-import {useDispatch} from 'react-redux'
-import {setUser} from '../store/usersSlice.js' 
+import { auth } from '../firebase/config.js';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../store/usersSlice.js';
 
-function Header({pageTitle}) {
+function Header({ pageTitle }) {
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
-
-  function handleSair(){
-    if(confirm('Tem certeza ?')) {
+  function handleSair() {
+    if (confirm('Tem certeza ?')) {
       signOut(auth).then(() => {
-        dispatch(setUser(null))
+        dispatch(setUser(null));
         // Sign-out successful.
-       }).catch((error) => {
-         console.log(error)
-         // An error happened.
-       });
+      }).catch((error) => {
+        console.log(error);
+        // An error happened.
+      });
     }
-    
   }
 
-    return (
-      <>
+  return (
+    <>
+      <h1>{pageTitle}</h1>
 
-            <h1>{pageTitle}</h1>
+      <div className="header-btns">
+        <NavLink to="/">
+          <button className="btn">
+            Livros
+          </button>
+        </NavLink>
 
-            <div className="header-btns">
+        <NavLink to="/add-book">
+          <button className="btn">
+            Add Livro +
+          </button>
+        </NavLink>
 
-                    <NavLink to="/">
-                      <button className="btn">
-                          Livros
-                      </button>
-                    </NavLink>
+        <NavLink to="/cars">
+          <button className="btn">
+            Carros
+          </button>
+        </NavLink>
 
-                    <NavLink to="/add-book">
-                      <button className="btn">
-                          Add Livro +
-                      </button>
-                    </NavLink>
+        <NavLink to="/add-car">
+          <button className="btn">
+            Add Carro +
+          </button>
+        </NavLink>
 
-                    <button onClick={handleSair} className="btn transparent">
-                      Sair
-                    </button>
+        <button onClick={handleSair} className="btn transparent">
+          Sair
+        </button>
+      </div>
+    </>
+  );
+}
 
-               
-            </div>
-    
-      </>
-    )
-  }
-  
-  export default Header
-  
+export default Header;

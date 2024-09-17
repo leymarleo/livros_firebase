@@ -376,7 +376,7 @@ table tr th {
 .single-book .book-details p {
   margin-bottom: 20px;
   max-width: 400px;
-  text-align: left;
+  text-align: justify;
 }
 
 .single-book .book-details .read-checkbox {
@@ -532,4 +532,204 @@ table tr th {
 .login-page.container button.btn.login    {
   background: #3e3e3e;
   color: #fff;
+}
+
+/* Estilos para o componente Car igual ao componente Book */
+
+.car {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  position: relative;
+  background-color: #fff;
+  box-shadow: 0px 4px 11px 0px rgb(0 0 0 / 14%);
+  border-radius: 4px;
+}
+
+.car-cover img {
+  width: 100%;
+  height: auto; /* Ou ajuste conforme necessário */
+  object-fit: cover;
+}
+
+.single-car .car-cover img {
+  width: 100%;
+  height: auto; /* Ou ajuste conforme necessário */
+  object-fit: cover;
+}
+
+.car .car-cover {
+  position: relative;
+  width: 100%;
+}
+
+.car .car-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  box-shadow: 0px 4px 11px 0px rgb(0 0 0 / 14%);
+}
+
+.car .car-cover:hover button {
+  visibility: visible;
+  opacity: 1;
+}
+
+.car .car-cover button {
+  visibility: hidden;
+  display: block;
+  position: absolute;
+  transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+  transform: none;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  text-align: center;
+  opacity: 0;
+  border: none;
+  background-color: rgb(232, 93, 65);
+  color: white;
+  height: 51px;
+  cursor: pointer;
+}
+
+.car .car-cover button.isSeen {
+  background-color: #1cab47;
+}
+
+.car .car-cover button span {
+  font-weight: 500;
+  font-size: 18px;
+  margin-left: 10px;
+}
+
+.car .car-model {
+  font-size: 21px;
+  line-height: 27px;
+  margin-bottom: 10px;
+}
+
+.car .car-brand {
+  font-size: 19px;
+  line-height: 26px;
+  margin-bottom: 10px;
+}
+
+.car .car-details {
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.car .seenIt {
+  padding: 6px 10px;
+  position: absolute;
+  left: auto;
+  right: 5px;
+  bottom: auto;
+  top: 5px;
+  z-index: 10;
+  border-radius: 25px;
+  overflow: hidden;
+  background-color: #1cab47;
+  color: white;
+}
+
+.cars-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 20px;
+}
+
+.cars-list a {
+  text-decoration: none;
+  color: #000;
+}
+
+.cars-seen {
+  padding-top: 60px;
+  text-align: center;
+}
+
+.single-car {
+  display: flex;
+  padding: 40px;
+}
+
+.single-car .car-cover {
+  max-width: 360px;
+}
+
+.single-car .car-details {
+  padding-left: 20px;
+}
+
+.single-car .car-details h3 {
+  font-size: 32px;
+}
+
+.single-car .car-details p {
+  margin-bottom: 20px;
+  max-width: 900px;
+  text-align: justify !important;
+}
+
+@media (max-width: 768px) {
+  .cars-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .cars-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* single-car section */
+.single-car {
+  display: flex;
+  padding: 40px;
+}
+
+.single-car .car-cover {
+  max-width: 360px;
+}
+
+.single-car .car-details {
+  padding-left: 20px;
+}
+
+.single-car .car-details h3 {
+  font-size: 32px;
+}
+
+.single-car .car-details p {
+  margin-bottom: 20px;
+  max-width: 400px;
+  text-align: left;
+}
+
+.single-car .seen-checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.single-car .seen-checkbox input[type=checkbox] {
+  width: 20px;
+  height: 20px;
+  margin-right: 6px;
+  cursor: pointer;
+}
+
+.single-car .erase-car {
+  color: red;
+  font-style: italic;
+  text-decoration: underline;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 20px;
 }
